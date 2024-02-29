@@ -5,9 +5,8 @@ import React, { useEffect } from "react";
 import Column from "./Column";
 
 const Board = () => {
-  const [board, setBoard, getBoard] = useBoardStore((state) => [
+  const [board, getBoard] = useBoardStore((state) => [
     state.board,
-    state.setBoard,
     state.getBoard,
   ]);
 
