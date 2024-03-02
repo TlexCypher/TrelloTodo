@@ -13,9 +13,10 @@ type Props = {
 
 const Column = ({ id, todos, index }: Props) => {
   const searchString = useBoardStore((state) => state.searchString);
-  const [isOpen, setOpen] = useModalStore((state) => [
+  const [isOpen, openModal, closeModal] = useModalStore((state) => [
     state.isOpen,
-    state.setOpen,
+    state.openModal,
+    state.closeModal,
   ])
 
   const translateId = (id: string) => {
@@ -26,7 +27,7 @@ const Column = ({ id, todos, index }: Props) => {
 
   const handleAddTask = () => {
     const handleAddTaskFunc = async () => {
-      setOpen(true);
+      openModal();
     };
     handleAddTaskFunc();
   }
