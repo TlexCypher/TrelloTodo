@@ -14,7 +14,7 @@ const Column = ({ id, todos, index }: Props) => {
   const searchString = useBoardStore((state) => state.searchString);
 
   return (
-    <Draggable draggableId={id} index={index}>
+    <Draggable draggableId={id} index={index} >
       {(provided) => (
         <div
           ref={provided.innerRef}
@@ -33,14 +33,16 @@ const Column = ({ id, todos, index }: Props) => {
                   ? todos.map((todo: Todo, index) => {
                     if (todo.content.includes(searchString)) {
                       return (
-                        <Draggable key={todo.$id}
-                          draggableId={`${todo.type}${index}`}
+                        <Draggable
+                          key={todo.$id}
+                          draggableId={todo.$id}
                           index={index}
                         >
                           {(provided) => (
                             <TodoCard
-                              key={todo.$id}
                               todo={todo}
+                              index={index}
+                              id={id}
                               innerRef={provided.innerRef}
                               draggableProps={provided.draggableProps}
                               dragHandleProps={provided.dragHandleProps}
@@ -52,13 +54,15 @@ const Column = ({ id, todos, index }: Props) => {
                   })
                   : todos.map((todo: Todo, index) => (
                     <Draggable
-                      draggableId={`${todo.type}${index}`}
+                      key={todo.$id}
+                      draggableId={todo.$id}
                       index={index}
                     >
                       {(provided) => (
                         <TodoCard
-                          key={todo.$id}
                           todo={todo}
+                          index={index}
+                          id={id}
                           innerRef={provided.innerRef}
                           draggableProps={provided.draggableProps}
                           dragHandleProps={provided.dragHandleProps}
@@ -75,7 +79,7 @@ const Column = ({ id, todos, index }: Props) => {
           </Droppable>
         </div>
       )}
-    </Draggable>
+    </Draggable >
   );
 };
 

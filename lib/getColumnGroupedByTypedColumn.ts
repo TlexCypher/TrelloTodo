@@ -1,4 +1,6 @@
 import { databases } from "@/appWrite";
+import setGroupOrder from "./setGroupOrder";
+import getGroupOrder from "./getGroupOrder";
 
 const getColumnsGroupedByTypedColumn: () => Promise<Board> = async () => {
   const docs = await databases.listDocuments(
@@ -23,9 +25,12 @@ const getColumnsGroupedByTypedColumn: () => Promise<Board> = async () => {
     });
     return acc;
   }, new Map<TypedColumn, Column>());
-
   //If todos is empty.
-  const columnTypes: TypedColumn[] = ["todo", "inprogress", "done"];
+  let columnTypes: TypedColumn[] = getGroupOrder();
+  if (!columnTypes) {
+    columnTypes = ["todo", "inprogress", "done"];
+    setGroupOrder(columnTypes);
+  }
   for (const columnType of columnTypes) {
     if (!columns.get(columnType)) {
       columns.set(columnType, {
@@ -34,7 +39,6 @@ const getColumnsGroupedByTypedColumn: () => Promise<Board> = async () => {
       });
     }
   }
-
   //Sort by key, typed-column
   const sortedColumns = new Map(
     Array.from(columns.entries()).sort(

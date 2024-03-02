@@ -3,13 +3,15 @@
 import useBoardStore from "@/store/BoardStore";
 import React, { useEffect } from "react";
 import Column from "./Column";
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, DragStart, DropResult, Droppable } from "react-beautiful-dnd";
+import setGroupOrder from "@/lib/setGroupOrder";
 
 const Board = () => {
-  const [board, getBoard, setBoard] = useBoardStore((state) => [
+  const [board, getBoard, setBoard, updateDB] = useBoardStore((state) => [
     state.board,
     state.getBoard,
     state.setBoard,
+    state.updateDB,
   ]);
 
   useEffect(() => {
@@ -22,8 +24,7 @@ const Board = () => {
     if (!destination) return;
     const sourceColumnId = source.droppableId;
     const destinationColumnId = destination?.droppableId;
-    const indexInSouceColumn = source.index;
-    const indexInDestinationColumn = destination.index;
+    const indexInSouceColumn = source.index; const indexInDestinationColumn = destination.index;
     /*Exactly same position, nothing to do we have.*/
     if (sourceColumnId === destinationColumnId && indexInSouceColumn === indexInDestinationColumn) return;
     /* Column dnd.*/
@@ -37,7 +38,7 @@ const Board = () => {
         ...board,
         columns: rearrangedColumns,
       });
-
+      setGroupOrder(Array.from(rearrangedColumns.keys()) as TypedColumn[]);
     } else {
       //Handle task drag
       const columns = Array.from(board.columns);
@@ -56,7 +57,6 @@ const Board = () => {
 
       if (!startCol || !finishCol) return;
       if (source.index === destination.index && startCol === finishCol) return;
-
       const newTodos = startCol.todos;
       const [todoMoved] = newTodos.splice(source.index, 1);
       if (startCol.id === finishCol.id) {
@@ -85,6 +85,7 @@ const Board = () => {
         newColumns.set(finishCol.id, newFinishCol);
         setBoard({ ...board, columns: newColumns });
       }
+      updateDB(todoMoved, finishCol.id as TypedColumn)
     }
   }
 
@@ -97,7 +98,6 @@ const Board = () => {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-
             {Array.from(board.columns.entries()).map(
               ([typedColumn, column], index) => (
                 <Column
