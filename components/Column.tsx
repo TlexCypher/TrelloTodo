@@ -3,6 +3,7 @@ import TodoCard from "./TodoCard";
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 import useBoardStore from "@/store/BoardStore";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import useModalStore from "@/store/ModalStore";
 
 type Props = {
   id: string;
@@ -12,11 +13,22 @@ type Props = {
 
 const Column = ({ id, todos, index }: Props) => {
   const searchString = useBoardStore((state) => state.searchString);
+  const [isOpen, setOpen] = useModalStore((state) => [
+    state.isOpen,
+    state.setOpen,
+  ])
 
   const translateId = (id: string) => {
     if (id === "todo") return "To Do"
     else if (id === "inprogress") return "In Progress"
     return "Done"
+  }
+
+  const handleAddTask = () => {
+    const handleAddTaskFunc = async () => {
+      setOpen(true);
+    };
+    handleAddTaskFunc();
   }
 
   return (
@@ -83,6 +95,7 @@ const Column = ({ id, todos, index }: Props) => {
                   <PlusCircleIcon
                     className="rounded-full h-10 w-10 text-green-500 transition-transform duration-300 
                     hover:-translate-y-1 hover:translate-x-1 hover:text-green-300/80"
+                    onClick={handleAddTask}
                   />
                 </div>
               </div>
