@@ -1,20 +1,28 @@
 import { XMarkIcon } from "@heroicons/react/16/solid";
 import React from "react";
+import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from "react-beautiful-dnd";
 
 type Props = {
-  content: string;
-  image: string | undefined;
+  todo: Todo
+  innerRef: (element: HTMLElement | null) => void;
+  draggableProps: DraggableProvidedDraggableProps;
+  dragHandleProps: DraggableProvidedDragHandleProps | null | undefined;
 };
 
-const TodoCard = ({ content, image }: Props) => {
+const TodoCard = ({ todo, innerRef, draggableProps, dragHandleProps }: Props) => {
   return (
-    <div className="bg-white py-5 px-8 m-1 rounded-xl drop-shadow-2xl">
+    <div
+      className="bg-white py-5 px-8 m-2 rounded-xl drop-shadow-2xl"
+      ref={innerRef}
+      {...draggableProps}
+      {...dragHandleProps}
+    >
       <div className="flex items-center justify-between">
-        <p>{content}</p>
+        <p>{todo.content}</p>
         <XMarkIcon className="h-8 w-8 text-white bg-red-500 rounded-full" />
       </div>
       {/* TODO: Change to <Image/> */}
-      {image && <p>{image}</p>}
+      {todo.image && <p>{todo.image}</p>}
     </div>
   );
 };
