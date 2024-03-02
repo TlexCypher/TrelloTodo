@@ -42,7 +42,7 @@ const Column = ({ id, todos, index }: Props) => {
                             <TodoCard
                               todo={todo}
                               index={index}
-                              id={id}
+                              id={id as TypedColumn}
                               innerRef={provided.innerRef}
                               draggableProps={provided.draggableProps}
                               dragHandleProps={provided.dragHandleProps}
@@ -62,7 +62,7 @@ const Column = ({ id, todos, index }: Props) => {
                         <TodoCard
                           todo={todo}
                           index={index}
-                          id={id}
+                          id={id as TypedColumn}
                           innerRef={provided.innerRef}
                           draggableProps={provided.draggableProps}
                           dragHandleProps={provided.dragHandleProps}

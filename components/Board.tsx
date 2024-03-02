@@ -102,7 +102,7 @@ const Board = () => {
               ([typedColumn, column], index) => (
                 <Column
                   key={typedColumn}
-                  id={typedColumn}
+                  id={typedColumn as TypedColumn}
                   todos={column.todos}
                   index={index}
                 />
