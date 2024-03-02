@@ -6,9 +6,10 @@ import Column from "./Column";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 
 const Board = () => {
-  const [board, getBoard] = useBoardStore((state) => [
+  const [board, getBoard, setBoard] = useBoardStore((state) => [
     state.board,
     state.getBoard,
+    state.setBoard,
   ]);
 
   useEffect(() => {
@@ -17,9 +18,26 @@ const Board = () => {
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, type } = result;
-    console.log("source>>", source);
-    console.log("destination>>", destination);
-    console.log("type>>", type);
+    /*If we don't have destination, nothing to do we have.*/
+    if (!destination) return;
+    const souceColumnId = source.droppableId;
+    const destinationColumnId = destination?.droppableId;
+    const indexInSouceColumn = source.index;
+    const indexInDestinationColumn = destination.index;
+    /*Exactly same position, nothing to do we have.*/
+    if (souceColumnId === destinationColumnId && indexInSouceColumn === indexInDestinationColumn) return;
+    /* Column dnd.*/
+    if (type === 'column') {
+      const entries = Array.from(board.columns.entries());
+      const [removed] = entries.splice(indexInSouceColumn, 1);
+      entries.splice(indexInDestinationColumn, 0, removed);
+      const rearragedColumns = new Map(entries);
+      setBoard({
+        ...board,
+        columns: rearragedColumns,
+      })
+    } else {
+    }
   }
 
 

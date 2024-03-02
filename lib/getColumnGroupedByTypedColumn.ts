@@ -6,7 +6,6 @@ const getColumnsGroupedByTypedColumn: () => Promise<Board> = async () => {
     process.env.NEXT_PUBLIC_COLLECTION_ID!
   );
   const todos = docs.documents;
-  console.log(todos);
 
   //Create Board, Map<TypedColumn, Column>
   const columns = todos.reduce((acc, todo) => {
