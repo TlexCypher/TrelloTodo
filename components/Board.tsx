@@ -20,23 +20,71 @@ const Board = () => {
     const { source, destination, type } = result;
     /*If we don't have destination, nothing to do we have.*/
     if (!destination) return;
-    const souceColumnId = source.droppableId;
+    const sourceColumnId = source.droppableId;
     const destinationColumnId = destination?.droppableId;
     const indexInSouceColumn = source.index;
     const indexInDestinationColumn = destination.index;
     /*Exactly same position, nothing to do we have.*/
-    if (souceColumnId === destinationColumnId && indexInSouceColumn === indexInDestinationColumn) return;
+    if (sourceColumnId === destinationColumnId && indexInSouceColumn === indexInDestinationColumn) return;
     /* Column dnd.*/
     if (type === 'column') {
       const entries = Array.from(board.columns.entries());
-      const [removed] = entries.splice(indexInSouceColumn, 1);
-      entries.splice(indexInDestinationColumn, 0, removed);
-      const rearragedColumns = new Map(entries);
+      const [removed] = entries.splice(source.index, 1);
+      entries.splice(destination.index, 0, removed);
+      const rearrangedColumns = new Map(entries);
+      //columns could be overwritten by this expression.
       setBoard({
         ...board,
-        columns: rearragedColumns,
-      })
+        columns: rearrangedColumns,
+      });
+
     } else {
+      //Handle task drag
+      const columns = Array.from(board.columns);
+      const startColumn = columns[Number(source.droppableId)];
+      const finishColumn = columns[Number(destination.droppableId)];
+
+      const startCol = {
+        id: startColumn[0],
+        todos: startColumn[1].todos,
+      };
+
+      const finishCol = {
+        id: finishColumn[0],
+        todos: finishColumn[1].todos,
+      };
+
+      if (!startCol || !finishCol) return;
+      if (source.index === destination.index && startCol === finishCol) return;
+
+      const newTodos = startCol.todos;
+      const [todoMoved] = newTodos.splice(source.index, 1);
+      if (startCol.id === finishCol.id) {
+        //Same Column
+        newTodos.splice(destination.index, 0, todoMoved);
+        const newCol = {
+          id: startCol.id,
+          todos: newTodos,
+        };
+        const newColumns = new Map(board.columns);
+        newColumns.set(startCol.id, newCol);
+        setBoard({ ...board, columns: newColumns });
+      } else {
+        const newFinTodos = finishCol.todos;
+        newFinTodos.splice(destination.index, 0, todoMoved);
+        const newStartCol = {
+          id: startCol.id,
+          todos: newTodos,
+        };
+        const newFinishCol = {
+          id: finishCol.id,
+          todos: newFinTodos,
+        };
+        const newColumns = new Map(board.columns);
+        newColumns.set(startCol.id, newStartCol);
+        newColumns.set(finishCol.id, newFinishCol);
+        setBoard({ ...board, columns: newColumns });
+      }
     }
   }
 

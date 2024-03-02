@@ -21,7 +21,7 @@ const Column = ({ id, todos, index }: Props) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <Droppable droppableId={id} type={"card"}>
+          <Droppable droppableId={index.toString()} type={"card"}>
             {(provided, snapshot) => (
               <div
                 className="bg-white/50 text-center rounded-xl"
@@ -30,10 +30,13 @@ const Column = ({ id, todos, index }: Props) => {
               >
                 <p className="font-bold text-xl p-3">{id}</p>
                 {searchString
-                  ? todos.map((todo: Todo) => {
+                  ? todos.map((todo: Todo, index) => {
                     if (todo.content.includes(searchString)) {
                       return (
-                        <Draggable draggableId={todo.$id} index={index}>
+                        <Draggable key={todo.$id}
+                          draggableId={`${todo.type}${index}`}
+                          index={index}
+                        >
                           {(provided) => (
                             <TodoCard
                               key={todo.$id}
@@ -48,7 +51,10 @@ const Column = ({ id, todos, index }: Props) => {
                     }
                   })
                   : todos.map((todo: Todo, index) => (
-                    <Draggable draggableId={todo.$id} index={index}>
+                    <Draggable
+                      draggableId={`${todo.type}${index}`}
+                      index={index}
+                    >
                       {(provided) => (
                         <TodoCard
                           key={todo.$id}
