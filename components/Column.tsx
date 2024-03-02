@@ -13,6 +13,12 @@ type Props = {
 const Column = ({ id, todos, index }: Props) => {
   const searchString = useBoardStore((state) => state.searchString);
 
+  const translateId = (id: string) => {
+    if (id === "todo") return "To Do"
+    else if (id === "inprogress") return "In Progress"
+    return "Done"
+  }
+
   return (
     <Draggable draggableId={id} index={index} >
       {(provided) => (
@@ -24,11 +30,13 @@ const Column = ({ id, todos, index }: Props) => {
           <Droppable droppableId={index.toString()} type={"card"}>
             {(provided, snapshot) => (
               <div
-                className="bg-white/50 text-center rounded-xl"
+                className={`${snapshot.isDraggingOver ? "bg-green-200/90 rounded-xl text-center" : "bg-white/50 rounded-xl text-center"}`}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                <p className="font-bold text-xl p-3">{id}</p>
+                <p className="font-bold text-xl p-3">
+                  {translateId(id)}
+                </p>
                 {searchString
                   ? todos.map((todo: Todo, index) => {
                     if (todo.content.includes(searchString)) {
@@ -72,7 +80,10 @@ const Column = ({ id, todos, index }: Props) => {
                   ))}
                 {provided.placeholder}
                 <div className="flex justify-end mt-3">
-                  <PlusCircleIcon className="rounded-full h-10 w-10 text-green-500" />
+                  <PlusCircleIcon
+                    className="rounded-full h-10 w-10 text-green-500 transition-transform duration-300 
+                    hover:-translate-y-1 hover:translate-x-1 hover:text-green-300/80"
+                  />
                 </div>
               </div>
             )}

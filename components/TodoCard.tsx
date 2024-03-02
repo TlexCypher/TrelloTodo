@@ -1,5 +1,5 @@
 import useBoardStore from "@/store/BoardStore";
-import { XMarkIcon } from "@heroicons/react/16/solid";
+import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import React, { useEffect } from "react";
 import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from "react-beautiful-dnd";
 
@@ -29,17 +29,27 @@ const TodoCard = ({
 
   return (
     <div
-      className="bg-white py-5 px-8 m-2 rounded-xl drop-shadow-2xl"
+      className="bg-white py-5 px-8 m-4 rounded-xl drop-shadow-2xl"
       ref={innerRef}
       {...draggableProps}
       {...dragHandleProps}
     >
       <div className="flex items-center justify-between">
         <p>{todo.content}</p>
-        <XMarkIcon
-          className="h-8 w-8 text-white bg-red-500 rounded-full"
-          onClick={handleDeleteTask}
-        />
+        <div className="ml-5">
+          <XMarkIcon
+            className="h-8 w-8 text-white bg-red-500 rounded-full 
+          hover:shadow-xl hover:bg-red-300/80 mb-2 
+          transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1"
+            onClick={handleDeleteTask}
+          />
+          <PencilSquareIcon
+            className="h-8 w-8 text-white bg-cyan-500 rounded-full 
+          hover:shadow-xl hover:bg-cyan-300/80 
+          transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1"
+            onClick={handleDeleteTask}
+          />
+        </div>
       </div>
       {todo.image && <p>{todo.image}</p>}
     </div>
