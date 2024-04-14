@@ -27,10 +27,37 @@ npm run dev # サーバーのスタート
 
 ## Usage Examples (Functionalities and Demo)
 
-- タスクの追加
+- タスクの追加  
+
+
+https://github.com/TlexCypher/TrelloTodo/assets/144787772/84947a3c-c0c3-43bb-88ac-f75d4f8c5642
+
+
 - タスクの消去
+
+
+https://github.com/TlexCypher/TrelloTodo/assets/144787772/133f43c0-1488-4f87-9918-363475c770f7
+
+
+
 - タスクのカテゴリと優先順位更新(DnD)
+
+
+https://github.com/TlexCypher/TrelloTodo/assets/144787772/03381188-7a77-4400-8911-7dba03cca053
+
+
+
+
 - タスクの検索機能
+
+
+
+https://github.com/TlexCypher/TrelloTodo/assets/144787772/36732ab4-396f-47ea-b1f9-2b6acd345ad4
+
+
+
+
+
 
 ## Description
 
@@ -70,6 +97,11 @@ Trello Todo はバックエンドサーバーと Database を全て BaaS の App
 ## Detailed points
 
 DnD 機能とタスク追加時のバックドロップ(画面が暗くなってフォームだけに注目させる)を工夫して実装しました。
+
+
+## 実装途中の機能
+
+- TaskをUpdateする機能を追加したいと考えています。
 
 DnD 機能の実装では、タスクを移動させた後リロードしてもタスクのカテゴライズが保存されている必要があります。
 
