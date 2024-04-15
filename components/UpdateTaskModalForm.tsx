@@ -5,7 +5,7 @@ import useUpdateTaskModalStore from "@/store/UpdateTaskModalStore";
 
 const UpdateTaskModalForm = () => {
     const [newTaskInput, setNewTaskInput] = useBoardStore((state) => [state.newTaskInput, state.setNewTaskInput])
-    const [newType, setNewType] = useUpdateTaskModalStore((state) => [state.newType, state.setNewType])
+    const [taskContent, newType, setNewType] = useUpdateTaskModalStore((state) => [state.taskContent, state.newType, state.setNewType])
     const handleNewTaskInput = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskInput(e.target.value)
     }
@@ -22,6 +22,7 @@ const UpdateTaskModalForm = () => {
             <input
                 placeholder={"Enter task title"}
                 className='flex justify-center items-center w-full outline-none h-16 border rounded-lg px-3 mb-5'
+                value={taskContent}
                 onChange={handleNewTaskInput}
             />
             <p className='mb-3 font-bold drop-shadow-sm'>Select task type</p>

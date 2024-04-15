@@ -23,7 +23,7 @@ const TodoCard = ({
 }: Props) => {
 
   const deleteTask = useBoardStore((state) => state.deleteTask)
-  const [setOriginalType, setTaskId, openModal] = useUpdateTaskModalStore((state) => [state.setOriginalType, state.setTaskId, state.openModal])
+  const [setOriginalType, setTaskId, setTaskContent,  openModal] = useUpdateTaskModalStore((state) => [state.setOriginalType, state.setTaskId, state.setTaskContent, state.openModal])
 
   const handleDeleteTask = () => {
     deleteTask(todo.$id, id, index);
@@ -32,6 +32,7 @@ const TodoCard = ({
   const handleUpdateTask = () => {
     setOriginalType(todo.type)
     setTaskId(todo.$id)
+    setTaskContent(todo.content)
     openModal()
   }
 
