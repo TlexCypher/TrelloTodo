@@ -63,7 +63,6 @@ https://github.com/TlexCypher/TrelloTodo/assets/144787772/36732ab4-396f-47ea-b1f
 
 このアプリケーションはタスクを未着手(Todo), 取組中(In progress), 終了ずみ(Done)の 3 種類にカテゴライズする Web アプリケーションです。
 
-URL にアクセスしたユーザは、すぐに Trello Todo を使うことができます。
 
 普通の Todo アプリと異なる点は、タスクのカテゴリを DnD によって簡単に変更できる点です。
 
