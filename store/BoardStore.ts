@@ -13,7 +13,8 @@ interface BoardState {
   getBoard: () => void;
   updateDB: (todo: Todo, type: TypedColumn) => void;
   deleteTask: (todoId: string, typedColumn: TypedColumn, taskIndex: number) => void;
-  addTask: (taskType: string, taskContent: string) => void;
+  addTask: (taskType: TypedColumn, taskContent: string) => void;
+  updateTask: (todoId: string, taskOriginalType: TypedColumn, newTaskType: TypedColumn) => void;
 }
 
 const useBoardStore = create<BoardState>((set, get) => ({
@@ -57,18 +58,14 @@ const useBoardStore = create<BoardState>((set, get) => ({
     }
     deleteTaskFunc();
   },
-  addTask: (taskType: string, taskContent: string) => {
+  addTask: (taskType: TypedColumn, taskContent: string) => {
     const addTaskFunc = async () => {
-      let convertedTaskType: TypedColumn = "todo";
-      if (taskType === "In Progress") convertedTaskType = "inprogress";
-      else if (taskType === "Done") convertedTaskType = "done";
-
       const resp = await databases.createDocument(
         process.env.NEXT_PUBLIC_DB_ID!,
         process.env.NEXT_PUBLIC_COLLECTION_ID!,
         ID.unique(),
         {
-          type: convertedTaskType,
+          type: taskType,
           content: taskContent,
         }
       )
@@ -91,6 +88,14 @@ const useBoardStore = create<BoardState>((set, get) => ({
     };
     addTaskFunc();
   },
+
+  updateTask: (todoId: string, taskOriginalType: TypedColumn, newTaskType: TypedColumn) => {
+    const updateTaskFunc = async () => {
+      //update procedure
+    };
+
+    updateTaskFunc()
+  }
 }));
 
 export default useBoardStore;

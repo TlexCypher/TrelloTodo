@@ -1,10 +1,10 @@
 import useBoardStore from '@/store/BoardStore';
-import useModalStore from '@/store/ModalStore'
+import useAddTaskModalStore from '@/store/AddTaskModalStore'
 import { RadioGroup } from '@headlessui/react'
 import React, { ChangeEvent } from 'react'
 
-const ModalForm = () => {
-  const [taskType, setTaskType, closeModal] = useModalStore((state) => [
+const AddTaskModalForm = () => {
+  const [taskType, setTaskType, closeModal] = useAddTaskModalStore((state) => [
     state.taskType,
     state.setTaskType,
     state.closeModal,
@@ -20,7 +20,7 @@ const ModalForm = () => {
     setNewTaskInput(e.target.value);
   }
 
-  const handleSubmitAddTask = (e) => {
+  const handleSubmitAddTask = (e: React.MouseEvent<HTMLButtonElement>) => {
     addTask(taskType, newTaskInput);
     closeModal();
     e.preventDefault();
@@ -38,7 +38,7 @@ const ModalForm = () => {
       />
       <p className='mb-3 font-bold drop-shadow-sm'>Select task type</p>
       <RadioGroup value={taskType} onChange={setTaskType}>
-        <RadioGroup.Option value="To Do" className={"mb-5"}>
+        <RadioGroup.Option value="todo" className={"mb-5"}>
           {({ active }) => (
             <div className={active ? 'bg-red-400/40 py-6 rounded-lg text-white text-lg mx-auto' :
               'bg-red-400 py-6 rounded-lg text-white text-lg mx-auto'}
@@ -47,7 +47,7 @@ const ModalForm = () => {
             </div>
           )}
         </RadioGroup.Option>
-        <RadioGroup.Option value="In Progress" className={"mb-5"}>
+        <RadioGroup.Option value="inprogress" className={"mb-5"}>
           {({ active }) => (
             <div className={active ? 'bg-yellow-400/40 py-6 rounded-lg text-white text-lg mx-auto'
               : 'bg-yellow-400 py-6 rounded-lg text-white text-lg mx-auto'}
@@ -56,7 +56,7 @@ const ModalForm = () => {
             </div>
           )}
         </RadioGroup.Option>
-        <RadioGroup.Option value="Done" className={"mb-5"}>
+        <RadioGroup.Option value="done" className={"mb-5"}>
           {({ active }) => (
             <div className={active ? 'bg-green-400/40 py-6 rounded-lg text-white text-lg mx-auto'
               : 'bg-green-400 py-6 rounded-lg text-white text-lg mx-auto'}
@@ -76,4 +76,4 @@ const ModalForm = () => {
   )
 }
 
-export default ModalForm
+export default AddTaskModalForm

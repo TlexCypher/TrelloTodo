@@ -1,12 +1,12 @@
 'use client'
 
-import useModalStore from '@/store/ModalStore'
+import useAddTaskModalStore from '@/store/AddTaskModalStore'
 import { Transition, Dialog } from '@headlessui/react'
 import React, { Fragment } from 'react'
-import ModalForm from './ModalForm'
+import AddTaskModalForm from './AddTaskModalForm'
 
-const Modal = () => {
-  const [isOpen, openModal, closeModal] = useModalStore((state) => [state.isOpen, state.openModal, state.closeModal])
+const AddTaskModal = () => {
+  const [isOpen, openModal, closeModal] = useAddTaskModalStore((state) => [state.isOpen, state.openModal, state.closeModal])
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog onClose={closeModal}
@@ -39,7 +39,7 @@ const Modal = () => {
               <Dialog.Panel
                 className={"w-full max-w-md transform overflow-hidden rounded-2xl bg-white align-middle shadow-xl transition-all"}
               >
-                <ModalForm />
+                <AddTaskModalForm />
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -49,4 +49,4 @@ const Modal = () => {
   )
 }
 
-export default Modal
+export default AddTaskModal

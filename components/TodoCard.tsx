@@ -2,6 +2,7 @@ import useBoardStore from "@/store/BoardStore";
 import { PencilSquareIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import React, { useEffect } from "react";
 import { DraggableProvidedDragHandleProps, DraggableProvidedDraggableProps } from "react-beautiful-dnd";
+import useUpdateTaskModalStore from "@/store/UpdateTaskModalStore";
 
 type Props = {
   todo: Todo
@@ -22,9 +23,16 @@ const TodoCard = ({
 }: Props) => {
 
   const deleteTask = useBoardStore((state) => state.deleteTask)
+  const [setOriginalType, setTaskId, openModal] = useUpdateTaskModalStore((state) => [state.setOriginalType, state.setTaskId, state.openModal])
 
   const handleDeleteTask = () => {
     deleteTask(todo.$id, id, index);
+  }
+
+  const handleUpdateTask = () => {
+    setOriginalType(todo.type)
+    setTaskId(todo.$id)
+    openModal()
   }
 
   return (
@@ -47,7 +55,7 @@ const TodoCard = ({
             className="h-8 w-8 text-white bg-cyan-500 rounded-full 
           hover:shadow-xl hover:bg-cyan-300/80 
           transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1"
-            onClick={handleDeleteTask}
+            onClick={handleUpdateTask}
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface ModalState {
+interface AddTaskModalState {
   isOpen: boolean,
   taskType: TypedColumn,
   openModal: () => void;
@@ -8,7 +8,7 @@ interface ModalState {
   setTaskType: (taskType: TypedColumn) => void;
 }
 
-const useModalStore = create<ModalState>((set) => ({
+const useAddTaskModalStore = create<AddTaskModalState>((set) => ({
   isOpen: false,
   taskType: "todo",
   openModal: () => {
@@ -20,8 +20,7 @@ const useModalStore = create<ModalState>((set) => ({
   setTaskType: (taskType: TypedColumn) => {
     set({ taskType });
   }
-
 }));
 
-export default useModalStore;
+export default useAddTaskModalStore;
 

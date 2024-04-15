@@ -3,7 +3,7 @@ import TodoCard from "./TodoCard";
 import { PlusCircleIcon } from "@heroicons/react/16/solid";
 import useBoardStore from "@/store/BoardStore";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import useModalStore from "@/store/ModalStore";
+import useAddTaskModalStore from "@/store/AddTaskModalStore";
 
 type Props = {
   id: string;
@@ -13,7 +13,7 @@ type Props = {
 
 const Column = ({ id, todos, index }: Props) => {
   const searchString = useBoardStore((state) => state.searchString);
-  const [isOpen, openModal, closeModal] = useModalStore((state) => [
+  const [isOpen, openModal, closeModal] = useAddTaskModalStore((state) => [
     state.isOpen,
     state.openModal,
     state.closeModal,
