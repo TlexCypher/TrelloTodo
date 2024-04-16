@@ -2,6 +2,8 @@ import { ID, databases } from "@/appWrite";
 import Board from "@/components/Board";
 import getColumnsGroupedByTypedColumn from "@/lib/getColumnGroupedByTypedColumn";
 import { create } from "zustand";
+import getTodosOrderMap from "@/lib/getTodosOrderMap";
+import setTodosOrder from "@/lib/setTodosOrder";
 
 interface BoardState {
   board: Board;
@@ -58,6 +60,9 @@ const useBoardStore = create<BoardState>((set, get) => ({
         }
       })
       await databases.deleteDocument(process.env.NEXT_PUBLIC_DB_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!, todoId);
+      const newTodosOrderMap = getTodosOrderMap(newColumns)
+      console.log("delete>>", newTodosOrderMap)
+      setTodosOrder(newTodosOrderMap);
     }
     deleteTaskFunc();
   },
@@ -88,6 +93,9 @@ const useBoardStore = create<BoardState>((set, get) => ({
           columns: newColumns
         }
       })
+
+      const newTodosOrderMap = getTodosOrderMap(newColumns)
+      setTodosOrder(newTodosOrderMap);
     };
     addTaskFunc();
   },

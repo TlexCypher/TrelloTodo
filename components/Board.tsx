@@ -79,9 +79,7 @@ const Board = () => {
         };
         const newColumns = new Map(board.columns);
         newColumns.set(startCol.id, newCol);
-        console.log("newColumns >> ", newColumns)
         setBoard({ ...board, columns: newColumns });
-
         const newTodosOrderMap = getTodosOrderMap(newColumns)
         setTodosOrder(newTodosOrderMap);
       } else {
@@ -99,6 +97,8 @@ const Board = () => {
         newColumns.set(startCol.id, newStartCol);
         newColumns.set(finishCol.id, newFinishCol);
         setBoard({ ...board, columns: newColumns });
+        const newTodosOrderMap = getTodosOrderMap(newColumns)
+        setTodosOrder(newTodosOrderMap);
         updateDB(todoMoved, finishCol.id as TypedColumn)
       }
     }
