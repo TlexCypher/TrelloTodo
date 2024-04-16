@@ -55,6 +55,16 @@ https://github.com/TlexCypher/TrelloTodo/assets/144787772/03381188-7a77-4400-891
 https://github.com/TlexCypher/TrelloTodo/assets/144787772/36732ab4-396f-47ea-b1f9-2b6acd345ad4
 
 
+- タスクの更新機能
+
+
+
+
+https://github.com/TlexCypher/TrelloTodo/assets/144787772/385b4562-841b-4b32-b731-a891af2f0185
+
+
+
+
 
 
 
