@@ -6,12 +6,14 @@ interface UpdateTaskModalState {
     newType: TypedColumn,
     taskId: string,
     taskContent: string,
+    todo: Todo,
     openModal: () => void;
     closeModal: () => void;
     setOriginalType: (originalType: TypedColumn) => void
     setNewType: (originalType: TypedColumn) => void;
     setTaskId: (taskId: string) => void;
     setTaskContent: (taskContent: string) => void;
+    setTodo: (todo: Todo) => void;
 }
 
 const useUpdateTaskModalStore = create<UpdateTaskModalState>((set) => ({
@@ -20,6 +22,13 @@ const useUpdateTaskModalStore = create<UpdateTaskModalState>((set) => ({
     newType: "todo",
     taskId: "",
     taskContent: "",
+    todo: {
+        $id: "",
+        $createdAt: "",
+        type: "todo",
+        content: "",
+        image: "",
+    },
     openModal: () => {
         set({ isOpen: true })
     },
@@ -37,6 +46,9 @@ const useUpdateTaskModalStore = create<UpdateTaskModalState>((set) => ({
     },
     setTaskContent: (taskContent: string) => {
         set({ taskContent: taskContent })
+    },
+    setTodo: (todo: Todo) => {
+        set({ todo: todo })
     }
 }))
 

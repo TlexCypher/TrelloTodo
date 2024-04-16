@@ -4,6 +4,8 @@ import getColumnsGroupedByTypedColumn from "@/lib/getColumnGroupedByTypedColumn"
 import { create } from "zustand";
 import getTodosOrderMap from "@/lib/getTodosOrderMap";
 import setTodosOrder from "@/lib/setTodosOrder";
+import {from} from "stylis";
+import board from "@/components/Board";
 
 interface BoardState {
   board: Board;
@@ -16,7 +18,7 @@ interface BoardState {
   updateDB: (todo: Todo, type: TypedColumn) => void;
   deleteTask: (todoId: string, typedColumn: TypedColumn, taskIndex: number) => void;
   addTask: (taskType: TypedColumn, taskContent: string) => void;
-  updateTask: (todoId: string, taskOriginalType: TypedColumn, newTaskType: TypedColumn) => void;
+  updateTask: (todo: Todo, taskOriginalType: TypedColumn, newTaskType: TypedColumn) => void;
 }
 
 const useBoardStore = create<BoardState>((set, get) => ({
@@ -100,11 +102,38 @@ const useBoardStore = create<BoardState>((set, get) => ({
     addTaskFunc();
   },
 
-  updateTask: (todoId: string, taskOriginalType: TypedColumn, newTaskType: TypedColumn) => {
+  updateTask: (todo: Todo, taskOriginalType: TypedColumn, newTaskType: TypedColumn) => {
     const updateTaskFunc = async () => {
-      //update procedure
-    };
+      databases.updateDocument(
+          process.env.NEXT_PUBLIC_DB_ID!,
+          process.env.NEXT_PUBLIC_COLLECTION_ID!,
+          todo.$id,
+          {
+            type: newTaskType,
+            content: get().newTaskInput,
+          }
+      )
+      const newColumns = new Map(get().board.columns);
+      const fromCol = newColumns.get(taskOriginalType)!;
+      const toCol = newColumns.get(newTaskType)!;
+      const deleteIndex = fromCol.todos.indexOf(todo, 0);
 
+      fromCol.todos.splice(deleteIndex, 1)
+      console.log("fromCol>>", fromCol);
+      todo.content = get().newTaskInput
+      todo.type = newTaskType
+      toCol.todos.push(todo)
+      console.log("toCol>>", toCol);
+
+      newColumns.set(taskOriginalType, fromCol);
+      newColumns.set(newTaskType, toCol);
+
+      setTodosOrder(getTodosOrderMap(newColumns));
+
+      set({ board: {
+        columns: newColumns,
+      }})
+    };
     updateTaskFunc()
   }
 }));

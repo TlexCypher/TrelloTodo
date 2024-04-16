@@ -5,13 +5,14 @@ import useUpdateTaskModalStore from "@/store/UpdateTaskModalStore";
 
 const UpdateTaskModalForm = () => {
     const [newTaskInput, setNewTaskInput, updateTask] = useBoardStore((state) => [state.newTaskInput, state.setNewTaskInput, state.updateTask])
-    const [todoId, originalType, taskContent, newType, setNewType] = useUpdateTaskModalStore((state) => [state.taskId, state.originalType, state.taskContent, state.newType, state.setNewType])
+    const [todo, originalType, taskContent, newType, setNewType, closeModal] = useUpdateTaskModalStore((state) => [state.todo, state.originalType, state.taskContent, state.newType, state.setNewType, state.closeModal])
     const handleNewTaskInput = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskInput(e.target.value)
     }
     const handleSubmitUpdateTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-        updateTask(todoId, originalType, newType)
+        updateTask(todo, originalType, newType)
         e.preventDefault()
+        closeModal();
     }
 
     return (
@@ -22,7 +23,8 @@ const UpdateTaskModalForm = () => {
             <input
                 placeholder={"Enter task title"}
                 className='flex justify-center items-center w-full outline-none h-16 border rounded-lg px-3 mb-5'
-                value={taskContent}
+                type={"text"}
+                // value={taskContent}
                 onChange={handleNewTaskInput}
             />
             <p className='mb-3 font-bold drop-shadow-sm'>Select task type</p>
