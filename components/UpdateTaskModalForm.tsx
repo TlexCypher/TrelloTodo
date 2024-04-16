@@ -4,13 +4,13 @@ import useBoardStore from "@/store/BoardStore";
 import useUpdateTaskModalStore from "@/store/UpdateTaskModalStore";
 
 const UpdateTaskModalForm = () => {
-    const [newTaskInput, setNewTaskInput] = useBoardStore((state) => [state.newTaskInput, state.setNewTaskInput])
-    const [taskContent, newType, setNewType] = useUpdateTaskModalStore((state) => [state.taskContent, state.newType, state.setNewType])
+    const [newTaskInput, setNewTaskInput, updateTask] = useBoardStore((state) => [state.newTaskInput, state.setNewTaskInput, state.updateTask])
+    const [todoId, originalType, taskContent, newType, setNewType] = useUpdateTaskModalStore((state) => [state.taskId, state.originalType, state.taskContent, state.newType, state.setNewType])
     const handleNewTaskInput = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskInput(e.target.value)
     }
     const handleSubmitUpdateTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-        //update task
+        updateTask(todoId, originalType, newType)
         e.preventDefault()
     }
 

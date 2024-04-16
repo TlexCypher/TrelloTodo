@@ -23,7 +23,10 @@ const useBoardStore = create<BoardState>((set, get) => ({
   },
   searchString: "",
   newTaskInput: "",
-  setBoard: (board: Board) => set({ board }),
+  setBoard: (board: Board) => {
+    console.log("setBoard>>", board.columns)
+    set({ board })
+  },
   getBoard: async () => {
     const board = await getColumnsGroupedByTypedColumn();
     set({ board });

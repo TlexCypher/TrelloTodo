@@ -1,6 +1,8 @@
 import { databases } from "@/appWrite";
 import setGroupOrder from "./setGroupOrder";
 import getGroupOrder from "./getGroupOrder";
+import {getDoneOrder, getInProgressOrder, getTodoOrder} from "@/lib/getTodosOrder";
+import Column from "@/components/Column";
 
 const getColumnsGroupedByTypedColumn: () => Promise<Board> = async () => {
   const docs = await databases.listDocuments(
@@ -10,34 +12,28 @@ const getColumnsGroupedByTypedColumn: () => Promise<Board> = async () => {
   const todos = docs.documents;
 
   //Create Board, Map<TypedColumn, Column>
-  const columns = todos.reduce((acc, todo) => {
-    if (!acc.get(todo.type)) {
-      acc.set(todo.type, {
-        id: todo.type,
-        todos: [],
-      });
-    }
-    acc.get(todo.type)!.todos.push({
-      $id: todo.$id,
-      $createdAt: todo.$createdAt,
-      content: todo.content,
-      type: todo.type,
-    });
-    return acc;
-  }, new Map<TypedColumn, Column>());
+  const columns = new Map<TypedColumn, Column>();
+
+  columns.set("todo", {
+    id: "todo",
+    todos: getTodoOrder(),
+  })
+
+  columns.set("inprogress", {
+    id: "inprogress",
+    todos: getInProgressOrder(),
+  })
+
+  columns.set("done", {
+    id: "done",
+    todos: getDoneOrder(),
+  })
+
   //If todos is empty.
   let columnTypes: TypedColumn[] = getGroupOrder();
   if (!columnTypes) {
     columnTypes = ["todo", "inprogress", "done"];
     setGroupOrder(columnTypes);
-  }
-  for (const columnType of columnTypes) {
-    if (!columns.get(columnType)) {
-      columns.set(columnType, {
-        id: columnType,
-        todos: [],
-      });
-    }
   }
   //Sort by key, typed-column
   const sortedColumns = new Map(
